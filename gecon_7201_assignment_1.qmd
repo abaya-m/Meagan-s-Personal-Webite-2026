@@ -1,0 +1,711 @@
+---
+title: |
+  | GECON 7201 
+  | Applied Econometrics
+subtitle: |
+    | Assignment 1
+    | Due Thursday October 8, 2026
+author: "Meagan Abaya"
+format: pdf
+execute:
+  eval: false
+  echo: true
+callout-appearance: minimal
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+# Instructions
+
+- Edit this Quarto document for your assignment. All answers must be
+  typed in this document. Answers are to be written in the callout
+  blocks (see below)
+- Provide a link to your website in Nexus, so that I can view your
+  assignment.
+- Upload both a PDF and Quarto file to the nexus assignment portal.
+- The use of AI is strictly prohibited for this assignment.
+- Show your work
+- Type your mathematical answers using LaTeX
+- For questions marked R, include both your code and its output.
+- You may use `solve()`, `t()`, `%*%`, `diag()`, `qr()`, `eigen()`, and
+  other base R functions freely unless a question says otherwise.
+- Please round numerical answers to two decimal places unless stated
+  otherwise.
+
+```{r}
+#| label: setup
+set.seed(3201)
+```
+
+# Questions
+
+## Q1
+
+Create a personal Quarto website hosted on GitHup pages. For reference,
+please see the slides for **website** on Nexus. Your website should
+include the following:
+
+a.  An “Index” or “Home” page. This page should include the following: -
+    Your name - Your photo (optional) - Your credentials - An “About Me”
+    section that provides a brief (one paragraph) introduction to
+    yourself. \[10 Marks\]
+b.  A blog page. This will be the landing site for future assignments
+    \[5 Marks\]
+c.  Create a blog post and upload the finished PDF for this assignment.
+    \[3 Marks\]
+d.  Navigation bar with “Home” and "Blog" buttons. The navigation bar is
+    edited in the “\_quarto.yml” file. \[2 Marks\]
+
+::: callout-tip
+
+https://abaya-m.github.io/REPOSITORY-NAME/Meagan-s-Personal-Webite-2026/
+
+:::
+
+## Q2
+
+Consider $$
+A =
+\begin{bmatrix}
+2 & 0 & 1 \\
+0 & 3 & -1 \\
+1 & -1 & 4
+\end{bmatrix},
+\qquad
+B =
+\begin{bmatrix}
+1 & 2 & 0\\
+2 & 5 & -3 \\
+0 & -3 & 6
+\end{bmatrix}.
+$$
+
+a.  State the dimensions of $A$ and identify $a_{23}$. \[2 Marks\]
+
+::: callout-tip
+```{r}
+A <- matrix(c(2,0,1,0,3,-1,1,-1,4), nrow = 3, byrow = TRUE)
+dim(A)
+A[2,3]
+
+```
+:::
+
+b.  Is $A$ a square matrix? Is it symmetric? Justify your answer using
+    the definition $A=A^\top$, not just by inspection. \[2 Marks\]
+
+::: callout-tip
+A is a square Matrix because $A^T=A$, it is symmetric too because the
+elements are identical along the diagonal line. $$ 
+A = \begin{bmatrix}2 & 0 & 1 \\0 & 3 & -1 \\1 & -1 & 4\end{bmatrix},
+A^T = \begin{bmatrix}2 & 0 & 1 \\0 & 3 & -1 \\1 & -1 & 4\end{bmatrix}
+$$
+:::
+
+c.  Is $A$ a diagonal matrix? Explain why or why not. \[1 Mark\]
+
+::: callout-tip
+A is not a diagonal matrix. A diagonal matrix only has non-zero values
+along its main diagonal and zero in all elements not in the diagonal.
+This matrix has non-zero values in the elements that do not lie in the
+main diagonal
+:::
+
+d.  In R, Enter $A$ and $B$ into R. Use `isSymmetric()` to confirm your
+    answer to part (b) for both matrices. \[4 Marks\]
+
+::: callout-tip
+```{r}
+A <- matrix(c(2,0,1,0,3,-1,1,-1,4), nrow = 3, byrow = TRUE)
+B <- matrix(c(1,2,0,2,5,-3,0,-3,6), nrow = 3, byrow = TRUE)
+isSymmetric(A)
+isSymmetric(B)
+```
+:::
+
+# Q3
+
+Using the same $A$ and $B$ from Question 1:
+
+a.  Compute $A+B$ and $3A-2B$ by hand. \[4 marks\]
+
+::: callout-tip
+$$
+ A+B \begin{bmatrix}
+2+1 & 0+2 & 1+0 \\
+0+2 & 3+5 & -1-3 \\
+1+0 & -1-3 & 4+6
+\end{bmatrix}
+=\begin{bmatrix}
+3 & 2 & 1 \\
+2 & 8 & -4 \\
+1 & -4 & 10
+\end{bmatrix}
+$$ $$
+3A= \begin{bmatrix}
+3*2 & 3*0 & 3*1 \\
+3*0 & 3*3 & 3*-1 \\
+3*1 & 3*-1 & 3*4
+\end{bmatrix} = \begin{bmatrix}
+6 & 0 & 3 \\
+0 & 9 & -3 \\
+3 & -3 & 12
+\end{bmatrix}
+$$ $$
+2B=\begin{bmatrix}
+2*1 & 2*2 & 0\\
+2*2 & 2*5 & 2*-3 \\
+0 & 2*-3 & 2*6
+\end{bmatrix} =\begin{bmatrix}
+2 & 4 & 0\\
+4 & 10 & -6 \\
+0 & -6 & 12
+\end{bmatrix}
+$$ $$3A-3B=\begin{bmatrix}
+6-2 & 0-4 & 3-0\\
+0-4 & 9-10 & -3-(-6) \\
+3-0 & -3-(-6) & 12-12
+\end{bmatrix}= \begin{bmatrix}
+4 & -4 & 3\\
+-4 & -1 & 3 \\
+3 & 3 & 0
+\end{bmatrix} $$
+:::
+
+b.  Compute $AB$ by hand, showing at least one entry's calculation in
+    full using the summation formula
+    $(AB)_{ij}=\sum_{\ell} a_{i\ell}b_{\ell j}$. \[2 marks\]
+
+::: callout-tip
+$$ 
+A*B  =\\
+\begin{bmatrix}
+2*1+0*2+0*1 &  2*2+0*5+1*-3  &  2*0+0*-3+1*6\\
+0*1 + 3*2+-1*0 & 0*2+3*5 +-1*-3 & -1*0 + -3*3 + -1*6 \\
+1*1 + -1*2 + 4*0 & 1*2 + -1*5 + 4*-3 & 1*0 + -1*-3 + 4*6 &\\
+\end{bmatrix}
+\qquad\\
+\begin{bmatrix}
+2 & 1 & 6\\
+6 & 18 & -15 \\
+-1 & -15 & 27
+\end{bmatrix}.
+$$
+:::
+
+c.  Compute $BA$. Is $AB=BA$ here? Was this guaranteed in general? \[2
+    marks\]
+
+::: callout-tip
+$$
+B*A = \begin{bmatrix}
+1*2 + 2*0 + 0*1 & 1*0 + 2*3 + 0*-1 & 1*1 + 2*-1 + 0*4 \\
+2*2 + 5*0 + -3*1 & 2*0 + 5*3 + -3*-1 & 2*1 + 5*-1 + -3*4 & \\
+0*2 + -3*0 + 6*1 & 0*0 + -3*3 + 6*-1 & 0*1 + -3*-1 + 6*4 &
+\end{bmatrix} \\= \begin{bmatrix}
+2 & 6 & -1\\
+1 & 18 & -15 \\
+6 & -15 & 27
+\end{bmatrix}
+$$ BA Equal AB. This is not guaranteed in general.
+:::
+
+d.  In R, verify parts (a)–(c) in R. Also compute `A * B` (element-wise)
+    and explain in one sentence why this is a different operation from
+    `A %*% B`. \[4 marks\]
+
+::: callout-tip
+```{r}
+A <- matrix(c(2,0,1,0,3,-1,1,-1,4), nrow = 3, byrow = TRUE)
+B <- matrix(c(1,2,0,2,5,-3,0,-3,6), nrow = 3, byrow = TRUE)
+A+B
+3*A -2*B
+A*B
+A%*%B
+B%*%A
+```
+
+AB is where is the elements are multiplied by the corresponding elements
+and that A%%B multiples the matrix properly
+:::
+
+## Q4
+
+Let $$
+X =
+\begin{bmatrix}
+1 & 4 \\
+2 & 5 \\
+3 & 6
+\end{bmatrix}.
+$$
+
+a.  Write down $X^\top$ and state its dimensions. \[2 marks\]
+
+::: callout-tip
+$$
+X =
+\begin{bmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{bmatrix}.
+$$
+:::
+
+b.  Compute $X^\top X$ and $XX^\top$ by hand. Explain why these two
+    products have different dimensions even though both involve $X$ and
+    $X^\top$. \[4 marks\]
+
+::: callout-tip
+$$
+X^TX =
+\begin{bmatrix}
+1*1 + 2*2 + 3*3  & 1*4 + 2*5 + 3*6  \\
+4*1 + 5*2 + 6*3 & 4*4 + 5*5 + 6*6 &
+\end{bmatrix}.=
+\begin{bmatrix}
+14  & 32  \\
+32 & 916 &
+\end{bmatrix}.\\
+XX^T =
+\begin{bmatrix}
+17 & 22 & 27 & \\
+22 & 214 & 16 & \\
+27 &  16 & 45 &
+\end{bmatrix}.
+$$
+
+They have different dimensions because multiplication is Matrix1(ixj) x
+Martrix2 (jxi) in this case when you multiple Matrix1(ixj) x Martrix2
+(jxi) you get matrix1x2(ixi) similarly if you reverse is Martrix2 (jxi)
+xMatrix1(ixj) matrix2x1(jxj)
+:::
+
+c.  Let $\mathbf{v}=\begin{bmatrix}1\\-1\\2\end{bmatrix}$. Compute
+    $\mathbf{v}^\top\mathbf{v}$ and $\mathbf{v}\mathbf{v}^\top$ by hand,
+    and state the dimension of each result. \[4 marks\]
+
+::: callout-tip
+$\mathbf{v}^\top\mathbf{v}$
+
+$\mathbf{v}\mathbf{v}^\top=\begin{bmatrix}1\\-1\\2\end{bmatrix}\begin{bmatrix}1 &-1&2\end{bmatrix}\\ \begin{bmatrix}1*1+-1*-1+2*2\end{bmatrix} =\begin{bmatrix}6\end{bmatrix}$
+
+$\mathbf{v}\mathbf{v}^\top$
+
+$\mathbf{v}^\top\mathbf{v}=\begin{bmatrix}1 &-1&2\end{bmatrix}\begin{bmatrix}1\\-1\\2\end{bmatrix}\\ \begin{bmatrix}1*1+-1*-1+2*2\end{bmatrix} =\begin{bmatrix}6\end{bmatrix}$
+
+:::
+
+d.  In R, verify parts (a)–(c). Then confirm numerically, for two
+    conformable matrices of your choosing, that
+    $(AB)^\top = B^\top A^\top$. \[4 marks\]
+
+::: callout-tip
+```{r}
+v <- matrix(c(1,-1,2), nrow = 3, byrow = TRUE)
+v_transpose <- matrix(c(1,-1,2), nrow = 3, byrow = FALSE)
+v*v_transpose
+v_transpose * v
+dim(v*v_transpose)
+dim(v_transpose * v)
+```
+:::
+
+## Q5
+
+Consider $$
+A =
+\begin{bmatrix}
+4 & 2 \\
+3 & 3
+\end{bmatrix}.
+$$
+
+a.  In R, compute $A^{-1}$ using `solve()`. \[2 marks\]
+
+::: callout-tip
+```{r}
+A <- matrix(c(4,2,3,3), nrow = 2, byrow = TRUE)
+solve(A)
+```
+:::
+
+b.  Construct a $3\times 3$ matrix that is singular (for example, make
+    one column a linear combination of the others) and show what happens
+    when you call `solve()` on it. \[2 marks\]
+
+::: callout-tip
+```{r}
+J <- matrix(c(8,4,2,4,2,1,1,1,1), nrow = 3, byrow = TRUE)
+solve(J)
+```
+When I use solve I get an error message
+:::
+
+## Q6
+
+a.  Define, in your own words, what it means for a set of vectors to be
+    linearly independent. \[1 mark\]
+
+::: callout-tip
+
+To be linear independent is where the vector cannot be linear
+combination of another vector. For example where a single vector cannot
+be a vector times by 2 of another vector. Also if you factor a multiple
+out of the vector the factored vector would not equal another.
+
+:::
+
+b.  Consider $$
+    \mathbf{x}_1=\begin{bmatrix}1\\2\\1\end{bmatrix},\quad
+    \mathbf{x}_2=\begin{bmatrix}0\\1\\1\end{bmatrix},\quad
+    \mathbf{x}_3=\begin{bmatrix}2\\5\\3\end{bmatrix}.
+     $$ Show that $\mathbf{x}_1,\mathbf{x}_2,\mathbf{x}_3$ are linearly
+    dependent by finding constants $c_1,c_2,c_3$, not all zero, such
+    that $c_1\mathbf{x}_1+c_2\mathbf{x}_2+c_3\mathbf{x}_3=\mathbf{0}$.
+    \[3 marks\]
+
+::: callout-tip
+
+```{r}
+x1 <- c(1, 2, 1)
+x2 <- c(0, 1, 1)
+x3 <- c(2, 5, 3)
+
+Z <- cbind(x1, x2, x3)
+```
+
+$c_1\mathbf{x}_1+c_2\mathbf{x}_2+c_3\mathbf{x}_3=\mathbf{0}$
+$c_1\mathbf{x}_1+c_2\mathbf{x}_2+c_3\mathbf{x}_3=\begin{bmatrix}0\\0\\0\end{bmatrix}$
+$\begin{bmatrix}c_1\\_2\\c_3\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}$
+$\begin{bmatrix}1\\2\\1\end{bmatrix}+\begin{bmatrix}0\\1\\1\end{bmatrix}+\begin{bmatrix} 2\\5\\3\end{bmatrix} =\begin{bmatrix} 0\\0\\0\end{bmatrix} \\\begin{bmatrix} c_1 & 0 & 2c_3\\2c_1 & c_2 & 5c_3\\c_1&c_2&3c_3\end{bmatrix} =\begin{bmatrix} 0\\0\\0\end{bmatrix}$
+$c_1 + 2c_3 =0 \\ 2c_1 + c_2 + 5c_3 = 0 \\ c_1+c_2+3c_3 = 0 \\ c_1=-2c_3$
+ Then choose a value for $c_3$
+ $c_3 = 1\\ c_1 = -2(1) = -2 \\ c_1+c_2+3c_3 = 0 \\ (-2)+c_2+3(1)=0\\c_2 = -1$
+
+
+:::
+
+c.  Let
+    $M=\begin{bmatrix}\mathbf{x}_1 & \mathbf{x}_2 & \mathbf{x}_3\end{bmatrix}$.
+    What is $\operatorname{rank}(M)$? Explain your reasoning using your
+    answer to part (b). \[2 marks\]
+
+::: callout-tip
+M would only have a rank of 2. Since the vectors are dependent on each
+other it is only a rank of 2. Because the second row is dependent on the
+first row. Such that the second row is equal to its own value plus 1.
+:::
+
+d.  In R, build $M$ and confirm its rank using `qr(M)$rank`. Then modify
+    one entry of $\mathbf{x}_3$ so that the three vectors become
+    linearly independent, and confirm the new rank. \[3 marks\]
+
+::: callout-tip
+```{r}
+M <- matrix(c(1,0,2,2,1,5,1,1,3), nrow = 3, byrow=TRUE)
+qr(M)$rank
+M_2 <- matrix(c(1,0,7,3,10,5,1,1,3), nrow = 3, byrow=TRUE)
+qr(M_2)$rank
+```
+:::
+
+## Q7.
+
+Let $$
+A =
+\begin{bmatrix}
+2 & 1 \\
+1 & 2
+\end{bmatrix},
+\qquad
+B =
+\begin{bmatrix}
+1 & 1 \\
+1 & 1
+\end{bmatrix}.
+$$ a. Write out the quadratic form $\mathbf{x}^\top A \mathbf{x}$ in
+terms of $x_1$ and $x_2$. \[2 marks\]
+
+::: callout-tip
+$\begin{bmatrix}x_1\\x_2\end{bmatrix}, \mathbf{X}^\top= \begin{bmatrix} x_1 & x_2 \end{bmatrix}, A= \begin{bmatrix} 2 & 1\\ 1 & 2 \end{bmatrix}$
+$AX=\begin{bmatrix} 2*x_1 + 1*x_1\\ 1*x_2 + 2*x_2\\ \end{bmatrix}= \begin{bmatrix} 2x_1 + x_1\\ x_2 + 2x_2\\ \end{bmatrix}$
+$X\^TA = \begin{bmatrix} x_1*2x_1 + x_2*x_2\\ x_1*x_1 + x_2*2x_2\\ \end{bmatrix}= \begin{bmatrix} 2x_1^2 + x_2^2\\ x_1^2 + 2x_2^2\\ \end{bmatrix}$
+:::
+
+b.  Is $B$ invertible? Justify your answer using the relationship
+    between definiteness, rank, and invertibility discussed in class.
+    \[3 marks\]
+
+::: callout-tip
+B is not invertible because it does not have full rank. Because the rows
+and columns are directly related to another it makes it that it does not
+have full rank
+
+:::
+
+c.  In R, Confirm parts (a) and (b) by computing `eigen(A)$values` and
+    `eigen(B)$values`. State the rule connecting the sign of a symmetric
+    matrix's eigenvalues to whether it is positive definite, positive
+    semidefinite, or neither. \[4 marks\]
+
+::: callout-tip
+
+```{r}
+A <- matrix(c(2,1,1,2), nrow = 2, byrow=TRUE)
+B <- matrix(c(1,1,1,1), nrow = 2, byrow=TRUE)
+eigen(A)$values
+eigen(B)$values
+```
+
+:::
+
+## Q8
+
+Let $$
+A =
+\begin{bmatrix}
+0.5 & 0.5 \\
+0.5 & 0.5
+\end{bmatrix}.
+$$
+
+a.  Show by direct calculation that $A^2=A$, i.e., that $A$ is
+    idempotent. \[2 marks\]
+
+::: callout-tip
+
+$A^2 =\begin{bmatrix} 0.5^2 + 0.5^2 & 0.5^2 + 0.5^2\\ 0.5^2 + 0.5^2 & 0.5^2 + 0.5^2\\ \end{bmatrix} = \begin{bmatrix} 0.5 & 0.5 \\ 0.5 & 0.5\\ \end{bmatrix} = \begin{bmatrix} 0.5 & 0.5 \\ 0.5 & 0.5\\ \end{bmatrix}$
+Therefore A is Idempotenet
+
+:::
+
+b.  Using only the idempotent property $A^2=A$ (not this specific
+    matrix), show that $I-A$ is also idempotent. \[2 marks\]
+
+::: callout-tip
+$I= \begin{bmatrix} 1 & 0\\ 0 & 1\\ \end{bmatrix} , A_1= \begin{bmatrix} 1 & 0\\ 0 & 0\\ \end{bmatrix} \\ I-A_1= \begin{bmatrix} 1-1 & 0-0\\ 0-0 & 1-0\\ \end{bmatrix} = \begin{bmatrix} 0 & 0-0\\ 0-0 & 1\\ \end{bmatrix} \\ (I-A_1)^2 = \begin{bmatrix} 0^2 & 0^2\\ 0^2 & 1^2\\ \end{bmatrix} = \begin{bmatrix} 0 & 0\\ 0 & 1\\ \end{bmatrix}$
+:::
+
+c.  In R, confirm that $A$ is idempotent using matrix multiplication
+    in R. \[1 mark\]
+    
+::: callout-tip
+
+```{r}
+A <- matrix(c(0.5,0.5,0.5,0.5), nrow=2)
+A%*%A
+A_1 <- matrix(c(1,0,0,0), nrow=2)
+A_1%*%A_1
+```
+
+:::
+
+## Q9
+
+Let $\mathbf{a}=\begin{bmatrix}3\\-2\\1\end{bmatrix}$,
+$\mathbf{x}=\begin{bmatrix}x_1\\ x_2\\ x_3\end{bmatrix}$ and
+
+$$
+S =
+\begin{bmatrix}
+2 & 1 & 0\\
+1 & 3 & 1\\
+0 & 1 & 2
+\end{bmatrix}.
+$$
+
+Note that $S$ is symmetric.
+
+a.  Write down
+    $\dfrac{\partial(\mathbf{a}^\top\mathbf{x})}{\partial\mathbf{x}}$
+    for a general $3\times1$ vector $\mathbf{x}$. (No calculation
+    needed, state the rule and apply it to this $\mathbf{a}$.) \[2
+    marks\]
+
+::: callout-tip
+general rule or derivation derivative in respect to X is 1 therefore the
+derivative would be $a^T$
+$\frac{\partial(\mathbf{a}^\top\mathbf{x})}{\partial\mathbf{x}} = a^T =  \begin{bmatrix} 3 & -2 & 1 \end{bmatrix}$
+:::
+
+b.  Derive
+    $\dfrac{\partial(\mathbf{x}^\top S\mathbf{x})}{\partial\mathbf{x}}$
+    using the general rule for
+    $\dfrac{\partial(\mathbf{x}^\top A\mathbf{x})}{\partial\mathbf{x}}$,
+    and simplify using the fact that $S$ is symmetric. \[2 marks\]
+
+::: callout-tip
+$\frac{\partial(x^TAx)}{\partial\mathbf{x}} = (A+A^T)x\\ S=S^T\\ \frac{\partial(x^TSx)}{\partial\mathbf{x}} = (S+S)x = 2Sx\\ 2 \begin{bmatrix} 2 & 1 & 0\\ 1 & 3 & 1\\ 0 & 1 & 2 \end{bmatrix} \begin{bmatrix} x_1\\ x_2\\ x_3 \end{bmatrix}$
+
+
+:::
+
+c.  Evaluate your answer to part (b) at
+    $\mathbf{x}=\begin{bmatrix}1\\0\\-1\end{bmatrix}$. \[1 mark\]
+
+::: callout-tip
+$\begin{bmatrix} 2 & 1 & 0\\ 1 & 3 & 1\\ 0 & 1 & 2 \end{bmatrix} \begin{bmatrix} x_1\\ x_2\\ x_3 \end{bmatrix} = \begin{bmatrix} 4 & 2 & 0\\ 2 & 6 & 2\\ 0 & 2 & 4 \end{bmatrix} \begin{bmatrix} 1\\ 0\\ -1 \end{bmatrix} = \begin{bmatrix} 4*1 + 2*0 +0*-1\\ 2*1 + 6*0 + 2*-1\\ 0*1+0*2+4*-1 \end{bmatrix} = \begin{bmatrix} 4\\ 0\\ -4 \end{bmatrix}$
+:::
+
+d.  In R, using the `numDeriv` package (`grad()`), numerically confirm
+    your answers to parts (a) and (c). \[2 marks\]
+::: callout-tip
+```{r}
+install.packages("numDeriv")
+library(numDeriv)
+a <- matrix(c(3, -2, 1), nrow=3)
+```
+:::
+
+## Q10
+
+Let $\mathbf{X}=\begin{bmatrix}X_1\\X_2\\X_3\end{bmatrix}$ be a random
+vector with $$
+\boldsymbol{\mu}=E[\mathbf{X}]=\begin{bmatrix}2\\0\\-1\end{bmatrix},
+\qquad
+\Sigma=\operatorname{Var}(\mathbf{X})=
+\begin{bmatrix}
+4 & 1 & 0\\
+1 & 2 & -1\\
+0 & -1 & 3
+\end{bmatrix}.
+$$ Let $A=\begin{bmatrix}1 & 1 & 0\\ 0 & 1 & -1\end{bmatrix}$ and
+$\mathbf{b}=\begin{bmatrix}5\\-2\end{bmatrix}$, and define
+$\mathbf{Y}=A\mathbf{X}+\mathbf{b}$.
+
+a.  State $E[\mathbf{Y}]$ and $\operatorname{Var}(\mathbf{Y})$, citing
+    the properties used. \[3 marks\]
+
+::: callout-tip
+$$E[Y] = AE[X] + b \\
+Var[Y]=AVar[X]A^T
+$$
+:::
+
+b.  Compute $E[\mathbf{Y}]$ by hand. \[2 marks\]
+
+::: callout-tip
+$$
+\begin{aligned}
+E[Y] &= AE[X] + b \\
+E[Y] &= \begin{bmatrix}1 & 1 & 0\\ 0 & 1 & -1 \end{bmatrix} \begin{bmatrix}2\\0\\-1\end{bmatrix} +\begin{bmatrix} 5\\-2\end{bmatrix}\\
+= & \begin{bmatrix} 1*2 + 1*0 +0*-1\\0*2 + 1*0 + -1*-1\end{bmatrix}\\
+= & \begin{bmatrix} 2\\1 \end{bmatrix} +\begin{bmatrix} 5\\-2\end{bmatrix}\\
+= & \begin{bmatrix} 7\\-1\end{bmatrix}\\
+\end{aligned}
+$$
+:::
+
+c.  Compute $\operatorname{Var}(\mathbf{Y})=A\Sigma A^\top$ by hand,
+    showing your intermediate matrix products. \[3 marks\]
+
+::: callout-tip
+$$
+\begin{aligned}
+Var(Y) &= AVar(X)A^T\\
+& = \begin{bmatrix}1 & 1 & 0\\ 0 & 1 & -1 \end{bmatrix}\begin{bmatrix} 4 & 1 &0\\ 1&2&-1\\ 0 & -1 & 3\end{bmatrix} \begin{bmatrix}1 &  0\\1 & 1 \\ -1&0 \end{bmatrix}\\
+& = \begin{bmatrix}1 & 1 & 0\\ 0 & 1 & -1 \end{bmatrix} 
+\begin{bmatrix} 4*1+1+0 & 0+1+0\\ 
+1+2+1 & 0+2+0\\ 
+0+-1+-3 & 0+-1+0\end{bmatrix}\\
+& = \begin{bmatrix}1 & 1 & 0\\ 0 & 1 & -1 \end{bmatrix}
+\begin{bmatrix} 4 & 1\\ 
+4 & 2\\ 
+-4 & -1\end{bmatrix}\\
+& = 
+\begin{bmatrix} 1*4+4+0 & 1+2+0\\ 
+0 +4+4 & 0+2-1 \end{bmatrix}\\
+& = 
+\begin{bmatrix} 
+8 & 3\\ 
+8 & 1 \end{bmatrix}\\
+\end{aligned}
+$$
+:::
+
+d.  Let $\mathbf{a}=\begin{bmatrix}1\\-1\\2\end{bmatrix}$. Compute
+    $\operatorname{Var}(\mathbf{a}^\top\mathbf{X})$ using the
+    appropriate property, without recomputing
+    $\operatorname{Var}(\mathbf{X})$ from scratch. \[3 marks\]
+
+::: callout-tip
+$$
+Var(a^TX)=a^tVar(X)a
+$$
+:::
+
+e.  In R, using `MASS::mvrnorm()`, draw 100,000 observations from a
+    distribution with mean $\boldsymbol{\mu}$ and variance $\Sigma$ (you
+    may treat $\mathbf{X}$ as multivariate normal for this simulation).
+    Confirm your answers to (b), (c), and (d) using `colMeans()` and
+    `cov()`. \[3 marks\]
+
+::: callout-tip
+```{r}
+library(MASS)
+
+mu <- c(2, 0, -1)
+
+Sigma <- matrix(c(
+  4, 1, 0,
+  1, 2, -1,
+  0, -1, 3
+), nrow = 3, byrow = TRUE)
+
+A <- matrix(c(
+  1, 1, 0,
+  0, 1, -1
+), nrow = 2, byrow = TRUE)
+
+b <- c(5, -2)
+
+a <- c(1, -1, 2)
+
+Xsim <- mvrnorm(100000, mu, Sigma)
+
+Ysim <- Xsim %*% t(A) + matrix(b, nrow = 100000, ncol = 2, byrow = TRUE)
+
+colMeans(Ysim)
+cov(Ysim)
+
+asim <- Xsim %*% a
+
+var(asim)
+```
+:::
+
+## Q11
+
+a.  Suppose $\mathbf{X}\sim N_3(\boldsymbol{\mu},\Sigma)$ using the
+    $\boldsymbol{\mu}$ and $\Sigma$ from Question 10. What is the
+    marginal distribution of $X_2$ alone? Give its distribution and
+    parameters. \[2 marks\]
+
+::: callout-tip
+Distribution of $X_2~N(0,2)$
+:::
+
+c.  Using property 4 of the multivariate normal (zero covariance implies
+    independence), determine whether $X_1$ and $X_3$ are independent.
+    Justify your answer using an entry of $\Sigma$. \[1 mark\]
+
+::: callout-tip
+$\sum = \begin{bmatrix} 4 & 1 & 0\\1 & 2 & -1 \\ 0&-1&3 \end{bmatrix}$
+$Cov(X_1,X_3) = 0$ We find that they are independent
+:::
+
+d.  In R, using your simulated draws from Question 10(e), produce a
+    scatterplot of $X_1$ against $X_3$ and compute `cor(X1, X3)`.
+    Comment on whether the plot is consistent with your answer to part
+    (c). \[3 marks\]
+
+::: callout-tip
+```{r}
+plot(Xsim[,1], Xsim[,3],
+     xlab = "X1",
+     ylab = "X3",
+     main = "Scatterplot of X1 against X3")
+```
+:::
