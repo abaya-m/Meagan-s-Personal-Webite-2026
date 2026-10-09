@@ -1,0 +1,11 @@
+---
+title: "assignment 1"
+description: "Pdf copy of assignment 1"
+author:
+  - name: Meagan Abaya
+  - affiliation: Department of Economics, Univeristy of Winnipeg
+categories: [Quarto, R, Data Analysis]
+draft: false
+format: html
+---
+
